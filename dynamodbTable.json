@@ -1,0 +1,53 @@
+{
+        "AttributeDefinitions": [
+            {
+                "AttributeName": "email",
+                "AttributeType": "S"
+            },
+            {
+                "AttributeName": "messageID",
+                "AttributeType": "S"
+            },
+            {
+                "AttributeName": "sender",
+                "AttributeType": "S"
+            }
+        ],
+        "TableName": "gmailAPI",
+        "KeySchema": [
+            {
+                "AttributeName": "messageID",
+                "KeyType": "HASH"
+            },
+            {
+                "AttributeName": "email",
+                "KeyType": "RANGE"
+            }
+        ],
+        "ProvisionedThroughput": {
+            "ReadCapacityUnits": 1,
+            "WriteCapacityUnits": 10
+        },
+        "LocalSecondaryIndexes": [
+            {
+                "IndexName": "sender-index",
+                "KeySchema": [
+                    {
+                        "AttributeName": "messageID",
+                        "KeyType": "HASH"
+                    },
+                    {
+                        "AttributeName": "sender",
+                        "KeyType": "RANGE"
+                    }
+                ],
+                "Projection": {
+                    "ProjectionType": "INCLUDE",
+                    "NonKeyAttributes": [
+                        "email"
+                    ]
+                }
+            }
+        ]
+}
+
