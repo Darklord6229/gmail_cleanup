@@ -1,7 +1,6 @@
 from threading import Thread
 from numpy import array_split
 from helperClasses import gmail_authenticate
-import base64
 
 class messageDetails(Thread):
     def __init__(self,messageIds,threadNum):
@@ -13,7 +12,6 @@ class messageDetails(Thread):
     def run(self):
         service = gmail_authenticate()
         messages = []
-        # decoded_data = None
 
         for count, id in enumerate(self.messageIds):
             result = service.users().messages().get(userId='me', id=id).execute()
@@ -27,12 +25,6 @@ class messageDetails(Thread):
                         subject = d['value']
                     if d['name'] == 'From':
                         sender = d['value']
-
-                # parts = payload.get('parts')[0]
-                # data = parts['body']['data']
-                # data = data.replace("-", "+").replace("_", "/")
-                # decoded_data = base64.b64decode(data)
-
 
             except:
                 pass

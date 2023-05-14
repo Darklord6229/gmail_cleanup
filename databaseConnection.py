@@ -1,9 +1,9 @@
+import os
 import boto3
 from time import sleep
-from boto3.dynamodb.conditions import Key
 
 
-# function for uploading to the dynamodb weather info table
+# function for uploading email content to dynamodb
 def database_Upload(messages):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('gmailAPI')
@@ -15,14 +15,13 @@ def database_Upload(messages):
             batch.put_item(
                 Item={
                     'messageID' : msg[0],
-                    'email' : 't.cohen.6229@gmail.com',
-                    'sender' : msg[1],
-                    'subject' : msg[2],
-                    # 'body' : msg[3]
+                    'email': os.getenv('email'),
+                    'sender': msg[1],
+                    'subject': msg[2],
                 }
             )
-
-            if count % 500 == 0:
+            # batch speed delay for handling rate limiting
+            if count % 500 == 0 & count != 0:
                 print('Sleeping 15')
                 sleep(15)
                 print('Sleeping Done')

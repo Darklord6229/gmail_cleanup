@@ -5,7 +5,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 SCOPES = ['https://mail.google.com/']
-our_email = 't.cohen.6229@gmail.com'
+our_email = os.getenv('email')
 
 def gmail_authenticate():
     creds = None
